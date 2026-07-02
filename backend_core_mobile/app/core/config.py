@@ -16,8 +16,16 @@ class Settings(BaseSettings):
     CORS_ORIGINS: str = "*"
     
     SUPABASE_URL: str = ""
+    SUPABASE_REST_URL: str = ""
+    SUPABASE_ANON_KEY: str = ""
     SUPABASE_SERVICE_ROLE_KEY: str = ""
     SUPABASE_STORAGE_BUCKET: str = "documentos-creditos"
+
+    @property
+    def supabase_rest_url(self) -> str:
+        if self.SUPABASE_REST_URL:
+            return self.SUPABASE_REST_URL.rstrip("/")
+        return f"{self.SUPABASE_URL.rstrip('/')}/rest/v1"
     
     DEFAULT_ADMIN_PASSWORD: str = "123456"
 

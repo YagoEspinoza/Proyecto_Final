@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, status, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.exceptions import CredentialsException, RoleNotAuthorizedException, BusinessRuleException, ResourceNotFoundException
@@ -69,7 +70,7 @@ app.include_router(admin_routes.router)
 def health_check(db: Session = Depends(get_db)):
     try:
         # Verificar conexión con la base de datos
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db_status = "ONLINE"
     except Exception as e:
         db_status = f"OFFLINE: {str(e)}"
